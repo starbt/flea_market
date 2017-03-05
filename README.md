@@ -22,20 +22,20 @@
 
 ### 首页
 
-![f](F:\DjangoProject\flea_market\screenshot\index.png)
+![f](screenshot\index.png)
 
 ### 商品详情
 
-![](F:\DjangoProject\flea_market\screenshot\goods.png)
+![](screenshot\goods.png)
 
 ### 评论页面
 
-![](F:\DjangoProject\flea_market\screenshot\comment.png)
+![](screenshot\comment.png)
 
 ### 发布商品
 
-![](F:\DjangoProject\flea_market\screenshot\publish_goods.png)
+![](screenshot\publish_goods.png)
 
 ### 个人信息
 
-![](F:\DjangoProject\flea_market\screenshot\profile.png)
+![](screenshot\profile.png)
