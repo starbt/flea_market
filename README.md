@@ -22,20 +22,20 @@
 
 ### 首页
 
-![f](screenshot\index.png)
+![f](https://github.com/starbt/flea_market/raw/master/screenshot/index.png)
 
 ### 商品详情
 
-![](screenshot\goods.png)
+![](https://github.com/starbt/flea_market/raw/master/screenshot/goods.png)
 
 ### 评论页面
 
-![](screenshot\comment.png)
+![](https://github.com/starbt/flea_market/raw/master/screenshot/comment.png)
 
 ### 发布商品
 
-![](screenshot\publish_goods.png)
+![](https://github.com/starbt/flea_market/raw/master/screenshot/publish_goods.png)
 
 ### 个人信息
 
-![](screenshot\profile.png)
+![](https://github.com/starbt/flea_market/raw/master/screenshot/profile.png)
