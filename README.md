@@ -38,4 +38,4 @@
 
 ### 个人信息
 
-![](https://github.com/starbt/flea_market/raw/master/screenshot/profile.png)
+![](https://github.com/starbt/flea_market/raw/master/screenshot/personal_information.png)
