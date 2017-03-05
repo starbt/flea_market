@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>{{ category_name }}</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/category.css">
+       <link rel="stylesheet" type="text/css" href="/static/css/search.css">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index' %}">STU Flea Market</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+               <li>
+                   <div class="search-box-wr ease2">
+                    <form class="search-box center" action="{% url 'search' %}" method="get">
+                        <button type="submit" class="search-submit">搜索</button>
+                        <div class="input-wr">
+                            <img class="search-icon" src="{% static 'images/search.png' %}"/>
+                            <div class="search-input">
+                            <input name="keyword" id="keyword" x-webkit-speech type="text" placeholder="搜索你想要的二货"/>
+                            </div>
+                        </div>
+                    </form>
+                   </div>
+               </li>
+
+                <li><a href="{% url 'index' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'logout' %}?next=/rango/">Logout</a></li>
+                         <li><a href=""><img src='{{ user_profile.avatar.url }}' style="width: 30px;height: 30px;" /></a> </li>
+                        <li><a href="{% url 'profile' user.pk %}" >{{ user_profile.user.username }}</a></li>
+                    {% else %}
+                        <li><a href="{% url 'register' %}">Register Here</a></li>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+
+              </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1 sidebar">
+                {% block side_block %}
+                {% load rango_extras %}
+                {% get_category_list category %}
+                {% endblock %}
+
+        </div>
+
+        <div class="col-md-7 col-md-offset-2 main" >
+
+            <div class="rank-by clearfix" data-cur="3">
+                <div class="rank-title-wr">
+                    <a class="pr rank-title-price" href="?rank=price">
+                        <div class="rank-title pri " data-rank="4"><h2>价格</h2></div>
+                                                <span id="up_down" order="up" class="price-up"></span>
+                    </a>
+                    <a href="?rank=publish_time">
+                        <div class="rank-title default" data-rank="1"><h2>时间</h2></div>
+                    </a>
+                    <a href="#">
+                        <div class="rank-title hot" data-rank="5"><h2>热度</h2></div>
+                    </a>
+                </div>
+            </div>
+
+
+           <div>
+                {% block body_block %}
+				       <h3>{{ category_name }}</h3>
+				        {% if category %}
+				            {% if goodses %}
+				            <div class="item-list">
+				              <ul class="items">
+				                {% for goods in goodses %}
+				                <li class="item">
+                                    {% if goods.picture %}
+                                         <div class=img><a href="{% url 'goods' goods.pk %}"><img src="{{ goods.picture.url }}"></a></div>
+                                    {% else %}
+                                        <div class=img><a href="{% url 'goods' goods.pk %}"><img src="{{ goods.picture_url }}"></a></div>
+                                    {% endif %}
+
+				                     <div class="info">
+				                         <div class="name"> <a href="{% url 'goods' goods.pk %}">{{ goods.name }}</a> </div>
+				                         <div class="price"> {{ goods.price }} </div>
+				                         <div class="place"> {{ goods.trade_location }} </div>
+				                     </div>
+				                 </li>
+				                {% endfor %}
+				              </ul>
+				            </div>
+				            {% else %}
+				                <strong>No pages currently in category.</strong>
+				            {% endif %}
+				        {% else %}
+				            The specified category {{ category_name }} does not exist!
+				        {% endif %}
+               
+                {% endblock %}
+          </div>
+
+          <div class = pages>
+            <nav>
+              <ul class="pagination">
+                <li>
+                {% if goodses.has_previous %}
+                    <a href="?page={{ goodses.previous_page_number }}">&laquo;</a>
+                {% endif %}
+                </li>
+                {% for i in page_list %}
+                  {% if goodses.number == i %}
+                    <li class = "active"><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+
+
+                {% endfor %}
+                <li>
+                 {% if goodses.has_next %}
+                    <a href="?page={{ goodses.next_page_number }}">&raquo;</a>
+                {% endif %}
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+        </div>
+
+
+        <div class="col-md-2 col-md-offset-1 " style="background-color: #dedef8;">
+
+         <div class="container-fluid">
+            <div class="row" style="margin-top:10px;">
+              <div class="col-md-6 col-md-offset-5" >
+                <a href="{% url 'add_goods' %}" class="btn btn-primary btn-lg active" role="button" >我要发布</a>
+              </div>
+              
+            </div>
+          </div>
+
+        
+            <div class="sidebar1-module sidebar-module-inset">
+            <h4>About</h4>
+            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur
+                purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+          </div>
+          <div class="sidebar1-module">
+            <h4>推荐网站</h4>
+            <ol class="list-unstyled">
+              <li><a href="https://www.zhihu.com/">知乎</a></li>
+              <li><a href="https://www.nowcoder.com">牛课网</a></li>
+              <li><a href="https://www.v2ex.com/">V2ex</a></li>
+              <li><a href="https://leetcode.com/">LeetCode</a></li>
+              <li><a href="http://www.xuetangx.com/">学堂在线</a></li>
+            </ol>
+          </div>
+        
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <footer>
+      <div class="container" style="margin-left: 650px">
+           <span class="power">&copy;2016-12  STU 版权所有</span>
+            <span> STARBT</span>
+      </div>
+           
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

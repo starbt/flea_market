@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>{% block title %}Welcome to STU fleamarket!{% endblock %}</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/add_goods.css">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index' %}">STU Flea Market</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'logout' %}?next=/rango/">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'register' %}">Register Here</a></li>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+
+              </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1 sidebar">
+                {% block side_block %}
+                {% load rango_extras %}
+                {% get_category_list category %}
+                {% endblock %}
+
+        </div>
+
+
+        <div class="col-md-7 col-md-offset-2  main">
+            <form id="goods_form" method="post" action="{% url 'add_goods' %}" enctype="multipart/form-data">
+
+             {% csrf_token %}
+            <!--  <ul>
+             {% for field in form %}
+                <li>
+                    {{ field.help_text }}
+                    {{ field }}
+                </li>
+             {% endfor %}
+             </ul> -->
+    <div >
+        <img class="release-icon-main" src="{% static 'images/release-icon.png' %}" alt=""/>
+        <img class="wave-fluid" src="{% static 'images/black-wave.png' %}"/>
+        <img class="release-title" src="{% static 'images/release-title.png' %}"/>
+        <div class="upload-wr">
+            <div >
+                <button type="button" class="btn btn-lg btn-info"
+                style="width: 200px;margin-top: 80px; margin-left:300px" onclick="#">上传图片</button>
+                <div align="center" >{{ form.picture }} </div>
+            </div>
+
+           <!--  <div class="clone-target">
+                <div class="photo">
+                   <div><img src="" alt="" class="image"/>上传图片</div>
+                    <span class="close"></span>
+                </div>
+            </div>
+            <div class="photo-area init-up">
+                <div class="upload-area"  id="upload-area">
+                    <div id="upload"><span class="up-bg"></span><span class="up-img-bg"><i></i></span></div>
+                </div>
+                <div class="photo-caution"><span>最多上传四张图片，支持jpg、png、gif格式</span></div>
+            </div> -->
+        </div>
+
+        <div class="form-wr">
+            <div class="form-must-wr">
+                <div class="form-item l goods-title">
+                    <div class="form-key"><span>商品名称</span></div>
+                    <div class="form-value">
+                        <div class="form-input-wr">
+                            {{ form.name }}
+                            <!-- <input type="text" id="title" name="title" placeholder="最多25个字"/> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item xl goods-desc">
+                    <div class="form-key"><span>商品详情</span></div>
+                    <div class="form-value">
+                        <div class="form-input-wr">
+                            {{ form.description }}
+
+                            <!-- <textarea name="desc" id="desc" placeholder="建议填写物品用途、新旧程度、原价等信息，至少15个字"></textarea> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item l goods-title">
+                    <div class="form-key"><span>交易地点</span></div>
+                    <div class="form-value">
+                        <div class="form-input-wr">
+                            {{ form.trade_location }}
+                            <!-- <input type="text" id="trade_place" name="trade_place" placeholder="宿舍、教学楼、食堂等" value=""/> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item m goods-price">
+                    <div class="form-key"><span>价格</span></div>
+                    <div class="form-value">
+                        <div class="form-input-wr">
+                            <!-- <input class="price" type="text" id="price" name="price"/> -->
+                            {{ form.price }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item m goods-cat">
+                    <div class="form-key"><span>分类</span></div>
+                    <div class="form-value">
+                        <!-- <div class="form-input-wr"><span>请选择</span>
+                        <input type="hidden" id="cat" name="cat" value="" /></div> -->
+                        <div class="form-input-wr">
+                              {{ form.category }}
+                        </div>
+
+                      
+                   <!--  <ul class="select">
+                            <li pk="item1" value="1"><span>校园代步</span></li>
+                            <li pk="item4" value="4"><span>手机</span></li>
+                            <li pk="item5" value="5"><span>电脑</span></li>
+                            <li pk="item8" value="8"><span>数码配件</span></li>
+                            <li pk="item15" value="15"><span>数码</span></li>
+                            <li pk="item23" value="23"><span>电器</span></li>
+                            <li pk="item30" value="30"><span>运动健身</span></li>
+                            <li pk="item39" value="39"><span>衣物伞帽</span></li>
+                            <li pk="item45" value="45"><span>图书教材</span></li>
+                            <li pk="item59" value="59"><span>租赁</span></li>
+                            <li pk="item71" value="71"><span>生活娱乐</span></li>
+                            <li pk="item999" value="999"><span>其他</span></li>
+                        </ul> -->
+                    </div>
+                </div>
+
+                <div class="form-item m goods-discount">
+                    <div class="form-key"><span>讲价</span></div>
+                    <div class="form-value">
+                        <div class="form-input-wr">
+                            <div id='discount' style="text-align: center;">
+                                 {{ form.discount }}
+                            </div>
+                            <!-- <span class="yes sel" data-value="1">可小刀</span>
+                            <span class="no" data-value="0">不可刀</span>
+                            <input type="hidden" id="discount" name="discount" value="1"/> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-contact">联系方式</div>
+            <div class="form-least">（至少选填一项）</div>
+            <hr class="form-sep-form clear" size="1" color="#D0E0E2"/>
+            <div class="form-select"> 
+                <div class="form-item m">
+                    
+                </div>
+
+                <div class="form-item m">
+                    <div class="form-key"><span>QQ</span></div>
+                    <div class="form-value">
+                        <div class="form-input-wr">
+
+                            <!-- <input type="text" id="qq" name="qq" value=""/> -->
+                            {{ form.goods_qq }}
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="form-item m">
+                    <div class="form-key"><span>手机</span></div>
+                    <div class="form-value">
+                        <div class="form-input-wr">
+                            <!-- <input type="tel" id="tel" name="tel" value=""/> -->
+                            {{ form.goods_phone }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="form-share-wr">
+                <label for="form-share"/>
+                <input id="form-share" name="share" type="checkbox" checked="on"/>
+                <span>我同意&nbsp;<a href="http://www.2shoujie.com/publish_rule" target="_blank">商品发布规则</a></span>
+            </div>
+            
+           <!--  <button type="button" class="btn btn-lg btn-primary" disabled="disabled" 
+            style="width: 200px;margin-top: 20px; margin-left:250px">马上发布</button> -->
+            <!-- <button type="button" class="form-submit" onclick="pre_release();">马上发布</button> -->
+        </div>
+    </div>
+
+            <input type="submit" name="submit" class="btn btn-lg btn-primary"  
+            style="width: 200px;margin-top: 20px; margin-left:250px" value="马上发布" />
+        </form>
+
+       </div>
+
+        
+
+        <div class="col-md-2 col-md-offset-1 " style="background-color: #dedef8;">
+
+         <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6 col-md-offset-5">
+                <a href="{% url 'add_goods' %}" class="btn btn-primary btn-lg active" role="button">我要发布</a>
+              </div>
+              
+            </div>
+          </div>
+
+        
+            <div class="sidebar1-module sidebar-module-inset">
+            <h4>About</h4>
+            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+          </div>
+          <div class="sidebar1-module">
+           <h4>推荐网站</h4>
+            <ol class="list-unstyled">
+              <li><a href="https://www.zhihu.com/">知乎</a></li>
+              <li><a href="https://www.nowcoder.com">牛课网</a></li>
+              <li><a href="https://www.v2ex.com/">V2ex</a></li>
+              <li><a href="https://leetcode.com/">LeetCode</a></li>
+              <li><a href="http://www.xuetangx.com/">学堂在线</a></li>
+            </ol>
+          </div>
+         
+          </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

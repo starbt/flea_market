@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>{% block title %}Welcome to STU fleamarket!{% endblock %}</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/goods.css">
+
+    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery
+/jquery-1.4.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index' %}">STU Flea Market</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'logout' %}?next=/rango/">Logout</a></li>
+                         <li><a href=""><img src='{{ user_profile.avatar.url }}' style="width: 30px;height: 30px;" /></a> </li>
+                        <li><a href="{% url 'profile' user.pk %}" >{{ user_profile.user.username }}</a></li>
+                    {% else %}
+                        <li><a href="{% url 'register' %}">Register Here</a></li>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+
+              </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2">
+        </div>
+
+
+        <div class="col-md-8  main" style="background-color: #D3D3D3">
+        	<br>
+        	<br>
+           <div class="container-fluid">
+           		<div class="row">
+           			<div class="col-md-7" >
+                         {% if goods.picture %}
+                             <div class=img><a href="{% url 'goods' goods.pk %}"><img src="{{ goods.picture.url }}"  height="600px" width="100%"></a></div>
+                        {% else %}
+                            <div class=img><a href="{% url 'goods' goods.pk %}"><img src="{{ goods.picture_url }}"  height="600px" width="100%"></a></div>
+                        {% endif %}
+           			</div>
+
+       				<div class="col-md-5">
+       				   <div class="ershou-info">
+                            <div class="ershou-hd">
+		                        <h2 class="ershou-title">{{ goods.name }}</h2>
+		                        <div class="ershou-price discount">
+		                            <span>{{ goods.price }}</span>
+		                            <span class="is-discount">
+                                    {%if goods.discount == 1 %}
+                                      可小刀
+                                    {% else %}
+                                      不可刀
+                                    {% endif %}
+                                </span>
+		                        </div>
+		                        <p class="bro-counts">浏览了<span>12</span>次</p>
+                    		</div>
+
+		                    <ul class="ershou-detail">
+		                        <li class="ershou-place">
+		                            <div class="name"><span>交易地点</span></div>
+		                            <div class="value"><span>{{ goods.trade_location }}</span></div>
+		                        </li>
+		                        <li class="ershou-seller">
+		                            <div class="name"><span>卖家</span></div>
+		                            <a href="/market/profile/{{ goods.seller.pk }}" target="_blank">
+		                                <div class="value">
+		                                    <span class="value-name">{{ goods.seller }}</span>
+		                                   <!--  <img class="detail-grade" src="http://ershou.u.qiniudn.com/ico_lv4.png" alt="等级显示"/> -->
+		                                </div>
+		                            </a>
+		                        </li>
+		                       <!--  <li class="ershou-cert">
+		                            <div class="name"><span>认证状态</span></div>
+		                            <div class="value"><span>未认证用户</span></div>
+		                        </li> -->
+		                        <li class="ershou-tel">
+		                            <div class="name"><span>手机</span></div>
+		                            <div class="value">
+		                                <span class="user-num">{{ goods.goods_phone }}</span>
+		                        <!--         <span class="user-login-tip">登录后查看完整号码</span>  -->
+                                    
+		                            </div>
+		                        </li>
+		                        <li class="ershou-phone">
+		                            <div class="name"><span>QQ</span></div>
+		                            <div class="value">
+		                                <span class="user-num">{{goods.goods_qq}}</span>
+		                              <!--   <span class="user-login-tip">登录后查看完整号码</span> -->
+		                            </div>
+		                        </li>
+		                        <li class="ershou-time">
+		                            <div class="name"><span>发布时间</span></div>
+		                            <div class="value"><span class="real-time">{{ goods.publish_time }}</span></div>
+		                        </li>
+		                    </ul>
+                            <div class="complain"><a href="javascript:void(0);" onclick="report();"><h4>&bull;&nbsp;&nbsp;&nbsp;&nbsp;举报&nbsp;&nbsp;&nbsp;&nbsp;&bull;</h4></a></div>
+       				</div>
+           		</div>
+
+            </div>
+         </div>
+
+         <br>
+         <br>
+
+         <div class="ershou-desc">
+                 <div class="desc clearfix">
+                    <a href="/profile/99880" target="_blank">
+                        <img id="user_ph" src="http://ershou.u.qiniudn.com/avatar3.png"/>
+                    </a>
+                    <span id="user_cmt">{{ goods.description }}</span>
+                </div>
+         </div>
+
+
+         <!-- 评论区 -->
+
+          <div class="comments">
+               <!--  <div class="comments-title">评论</div> -->
+               <div class="comments-title"><h3 style="margin: 10px">评论</h3></div>
+                <div class="comments-wr">
+                    <div class="comment-wr">
+                        {% if comments %}
+                        {% for comment in comments %}
+                          <div class="comment">
+                            <img class="avatar" src='{{ comment.user.avatar.url }}' alt="头像"/>
+                            <div class="commentator">
+                                <a href="/market/profile/{{ comment.user.pk }}"> {{ comment.user.user.username }}</a>
+                            </div>
+                            <p class="comment">{{ comment.content }}</p>
+                            <div class="man">
+                               <!--  <a class="rpl" href="javascript:;" onclick="reply(64267, 'Ammar')">回复</a> -->
+                               <a class="rpl" href="javascript:;" onclick="reply('{{ comment.user.user.username }}')">回复</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+
+                        <div class="post-comment clearfix">
+                          <div class="comment-cover">
+                              <span class="loader loader-quart"></span>
+                          </div>
+                          <input id="goods_id" type="hidden" value="112117"/>
+                          <img class="avatar" src="{{ user_profile.avatar.url }}" alt="头像"/>
+
+                          <form id="comment_form" method="post" action="{% url 'add_comment' goods.pk %}">
+                          <div class="commenting clearfix">
+                              <div class="comment-input-wr-wr">
+                                  <div class="comment-input-wr">
+                                        {% csrf_token %}
+                                        {{ form.content }}
+
+                                  </div>
+                              </div>
+
+                              <input type="submit" name="submit" class="sub-comment" value="评论" />
+                            </form>
+                              <!-- <button class="sub-comment" type="button" >评论</button> -->
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+         <!-- 评论区 -->
+       </div>
+
+        <div class="col-md-2 ">
+            <div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/static/js/comment.js"></script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
+

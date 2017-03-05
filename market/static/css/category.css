@@ -1,0 +1,178 @@
+/*list style begin*/
+
+.item-list {
+    width: 100%;
+    margin-bottom: 60px;
+}
+
+.items {
+    font-size: 0;
+    list-style: none;
+    text-align: justify;
+    text-justify: distribute-all-lines;
+    text-align-last: justify;
+}
+
+.items:after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+}
+
+.item {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    position: relative;
+    width: 200px;
+    height: 265px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    text-align: left;
+}
+
+.item.fixed {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+.item.last {
+    margin-right: 0;
+}
+
+.item .img {
+    display: block;
+    width: 300px;
+    height: 200px;
+}
+
+.img img {
+    width: 200px;
+    height: 200px;
+}
+
+.item .info {
+    padding: 10px;
+    background-color: #FFF;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info>div{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.info .price {
+    padding-right: 3px;
+    width: 57px;
+    height: 30px;
+    background-color: #EB5055;
+    position: absolute;
+    top: 5px;
+    right: -5px;
+    font-size: 16px;
+    color: #FFF;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    overflow: visible;
+}
+
+.info .price:before {
+    content: "￥";
+}
+
+.info .name {
+    margin-bottom: 6px;
+    width: 100%;
+    height: 1.6em;
+    line-height: 1.6em;
+    font-size: 15px;
+}
+
+.name a {
+    color: #1B816C;
+    text-decoration: none;
+}
+
+.name a:hover {
+    color: #ED4E51;
+}
+
+.info .department, .info .place {
+    width: 50%;
+    float: left;
+    font-size: 1em;
+    color: #858D8E;
+}
+
+.info .place {
+    text-align: right;
+}
+
+.info .school{
+    position: absolute;
+    max-width: 100%;
+    top: 168px;
+    left: 0;
+    background-color: #44c1a5;
+    background-color: rgba(68,193,165,0.9);
+    color: #fff;
+    padding:0 10px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+}
+
+.info .school span{
+}
+
+.pages {
+     text-align: center;
+}
+
+.rightbar{
+  background-color: #f23123;
+}
+/*list style end */
+.rank-by {
+    position: relative;
+    width: 500px;
+    height:40px;
+    margin: 20px auto 0;
+}
+
+.rank-title-wr {
+    position:relative;
+    height: 60px;
+
+}
+
+.rank-title {
+    float:left;
+    width: 60px;
+    height: 50px;
+    margin-right:100px;
+
+}
+
+.rank-title.default {
+    background-position: -10px -97px;
+}
+
+.rank-title.pri {
+    background-position: -10px -39px;
+}
+
+.rank-title.hot {
+    background-position: -10px -10px;
+}
+
+

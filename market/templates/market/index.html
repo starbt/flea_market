@@ -1,0 +1,37 @@
+{% extends 'market/base.html' %}
+
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block body_block %}
+
+    {% if user.is_authenticated %}
+    <h1>{{ user.username }}!Welcome to STU FleaMarket! </h1>
+    {% else %}
+    <h1>Welcome to STU FleaMarket!</h1>
+    {% endif %}
+    <br>
+     {% if goodses %}
+        <div class="item-list">
+          <ul class="items">
+            {% for goods in goodses %}
+            <li class="item">
+                {% if goods.picture %}
+                <div class=img><a href="{% url 'goods' goods.pk %}"><img src="{{ goods.picture.url }}"></a></div>
+                {% else %}
+                    <div class=img><a href="{% url 'goods' goods.pk %}"><img src="{{ goods.picture_url }}"></a></div>
+                {% endif %}
+
+                 <div class="info">
+                     <div class="name"> <a href="{% url 'goods' goods.pk %}">{{ goods.name }}</a> </div>
+                     <div class="price"> {{ goods.price }} </div>
+                     <div class="place"> {{ goods.trade_location }} </div>
+                 </div>
+             </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% else %}
+            <strong>No pages currently in category.</strong>
+        {% endif %}
+  
+{% endblock %}

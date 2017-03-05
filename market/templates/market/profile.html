@@ -1,0 +1,64 @@
+{% extends 'market/base.html' %}
+
+{% block title %}{{ profile.user.username }}{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="main">
+            <div class="top clearfix">
+                <div id="user_msg">
+                    <div class="name">{{ profile.user.username }}<img class="grade_prof" src="http://ershou.u.qiniudn.com/ico_lv4.png" alt="等级"></div>
+                    <p class="has_sell">已卖出<span>5</span>件商品</p>
+                    <ul class="seller_attr">
+                        <li>汕头大学 计算机科学系 2013级</li>
+                    </ul>
+                </div>
+                <div id="user_photo">
+                        {% if profile.avatar %}
+                        <img id="origin_ph" src="{{ profile.avatar.url }}" />
+                        {% else %}
+                            <img id="origin_ph1" src="" />
+                        {% endif %}
+                </div>
+            </div>
+            <ul id="middle_nav" class="clearfix">
+                <li class="on"><a  href="javascript:;">正在出售的商品</a></li>
+            </ul>
+            <div id="my_products">
+                <div id="onsale_pro">
+                    {% for goods in goodses %}
+                    <div class="enshr_each">
+                        <div class="enshr_info">
+                            <h4><a href="{% url 'goods' goods.pk %}"  target="_blank">{{ goods.name }}</a></h4>
+                            <h5>{{ goods.description }}</h5>
+                            <div class="enshr_state">
+                                <span class="enshr_info_price">¥{{ goods.price }}</span>
+                                <span class="enshr_info_address">{{ goods.trade_location }}</span>
+                            </div>
+                        </div>
+
+                        {% if goods.picture_url %}
+                            <a href="{% url 'goods' goods.pk %}" >
+                                <img class="enshr_ph" src="{{ goods.picture_url }}" />
+                            </a>
+                         {% else %}
+                             <a href="{% url 'goods' goods.pk %}" >
+                                <img class="enshr_ph" src="{{ goods.picture.url }}" />
+                             </a>
+                          {% endif %}
+
+                          <!--   {% if goods.picture %}
+                            <div class=enshr_ph><a href="{% url 'goods' goods.pk %}"><img src="{{ goods.picture.url }}"></a></div>
+                            {% else %}
+                                <div class=enshr_ph><a href="{% url 'goods' goods.pk %}"><img src="{{ goods.picture_url }}"></a></div>
+                            {% endif %}-->
+
+
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
