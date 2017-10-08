@@ -1,6 +1,6 @@
 ### 项目简介
 
-本项目是用Python3+Django搭建的一个校园二手市场信息发布平台。前端还用了Bootstrap.
+本项目是用Python3+Django搭建的一个校园二手市场信息发布平台。前端使用Bootstrap.
 
 ### 项目安装
 
